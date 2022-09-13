@@ -18,7 +18,7 @@ export default class LoginServices {
     const result = await this.userModel.getByUsername(username);
     if (typeof result === 'string' || result.password !== password) {
       return { code: 401, message: 'Username or password invalid' };
-    };
+    }
     const token = createToken(username, password);
     return token;
   }
