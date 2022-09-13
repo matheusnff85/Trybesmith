@@ -9,14 +9,14 @@ export default class ProductModel {
   }
 
   public async getAll(): Promise<Product[]> {
-    const [result] = await this.connection.execute('SELECT * FROM Trybesmith.Products');
+    const [result] = await this.connection.execute('SELECT * FROM Trybesmith.Products;');
     return result as Product[];
   }
 
   public async create(product: Product): Promise<Product> {
     const { name, amount } = product;
     const result = await this.connection.execute<ResultSetHeader>(
-      'INSERT INTO Trybesmith.Products (name, amount) VALUES (?, ?)',
+      'INSERT INTO Trybesmith.Products (name, amount) VALUES (?, ?);',
       [name, amount],
     );
     const [dataInserted] = result;
