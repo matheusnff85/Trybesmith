@@ -2,7 +2,7 @@ import createToken from '../helpers/createToken';
 import Login from '../interfaces/login.interface';
 import connection from '../models/connection';
 import UserModel from '../models/users.models';
-import validateLogin from '../validations/validations';
+import validations from '../validations/validations';
 
 export default class LoginServices {
   public userModel: UserModel;
@@ -12,7 +12,7 @@ export default class LoginServices {
   }
 
   public async login(loginObj: Login) {
-    const validateResult = validateLogin(loginObj);
+    const validateResult = validations.validateLogin(loginObj);
     if (validateResult !== true) return validateResult;
     const { username, password } = loginObj;
     const result = await this.userModel.getByUsername(username);
