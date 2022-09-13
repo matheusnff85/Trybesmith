@@ -1,4 +1,3 @@
-import Joi, { ValidationResult } from 'joi';
 import Login from '../interfaces/login.interface';
 
 const validateLogin = (loginObj: Login) => {

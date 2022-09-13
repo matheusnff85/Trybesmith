@@ -2,7 +2,7 @@ import createToken from '../helpers/createToken';
 import Login from '../interfaces/login.interface';
 import connection from '../models/connection';
 import UserModel from '../models/users.models';
-import validateLogin from '../validations/joiValidations';
+import validateLogin from '../validations/validations';
 
 export default class LoginServices {
   public userModel: UserModel;
