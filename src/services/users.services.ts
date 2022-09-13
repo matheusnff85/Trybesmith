@@ -13,7 +13,7 @@ export default class UserServices {
 
   public async create(userObj: User): Promise<HttpReturn> {
     const validate = validations.validateUser(userObj);
-    if(validate !== true) return validate;
+    if (validate !== true) return validate;
     const result = await this.userModel.create(userObj);
     return { token: result };
   }
