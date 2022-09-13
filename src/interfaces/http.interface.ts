@@ -1,4 +1,5 @@
 export default interface HttpReturn {
-  code: string,
-  message: string,
+  code?: string,
+  message?: string,
+  token?: string,
 }

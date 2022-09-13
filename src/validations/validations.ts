@@ -1,6 +1,7 @@
 import Joi from 'joi';
 import Login from '../interfaces/login.interface';
 import Product from '../interfaces/product.interface';
+import User from '../interfaces/user.interface';
 
 const validateLogin = (loginObj: Login) => {
   const { username, password } = loginObj;
@@ -31,7 +32,40 @@ const validateProduct = (productObj: Product) => {
   return true;
 };
 
+const userSchema = Joi.object({
+  username: Joi.string().min(3).required().messages({
+    'string.base': '422|"username" must be a string',
+    'string.min': '422|"username" length must be at least 3 characters long',
+    'any.required': '400|"username" is required',
+  }),
+  classe: Joi.string().min(3).required().messages({
+    'string.base': '422|"classe" must be a string',
+    'string.min': '422|"classe" length must be at least 3 characters long',
+    'any.required': '400|"classe" is required',
+  }),
+  level: Joi.number().greater(0).required().messages({
+    'number.base': '422|"level" must be a number',
+    'number.greater': '422|"level" must be greater than or equal to 1',
+    'any.required': '400|"level" is required',
+  }),
+  password: Joi.string().min(8).required().messages({
+    'string.base': '422|"password" must be a string',
+    'string.min': '422|"password" length must be at least 8 characters long',
+    'any.required': '400|"password" is required',
+  }),
+});
+
+const validateUser = (userObj: User) => {
+  const { error } = userSchema.validate(userObj);
+  if (error) {
+    const [code, message] = error.details[0].message.split('|');
+    return { code, message };
+  }
+  return true;
+};
+
 export default {
   validateLogin,
   validateProduct,
+  validateUser,
 };

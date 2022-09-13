@@ -10,6 +10,9 @@ export default class UserController {
 
   public create = async (req: Request, res: Response) => {
     const result = await this.userServices.create(req.body);
-    return res.status(201).json({ token: result });
+    if ('code' in result) {
+      return res.status(Number(result.code)).json({ message: result.message });
+    }
+    return res.status(201).json(result);
   };
 }
