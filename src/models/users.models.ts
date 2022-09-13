@@ -18,4 +18,13 @@ export default class UserModel {
     const token = createToken(username, password);
     return token;
   }
+
+  public async verifyUser(username: string, password: string): Promise<boolean> {
+    const result = this.connection.execute(
+      'SELECT * FROM Trybesmith.Users WHERE Users.username = ? AND Users.password = ?;',
+      [username, password],
+    );
+    if (!result) return false;
+    return true;
+  }
 }
