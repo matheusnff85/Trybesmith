@@ -1,4 +1,4 @@
-import { Pool, ResultSetHeader } from 'mysql2/promise';
+import { Pool, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
 import User from '../interfaces/user.interface';
 import createToken from '../helpers/createToken';
 
@@ -19,12 +19,14 @@ export default class UserModel {
     return token;
   }
 
-  public async verifyUser(username: string, password: string): Promise<boolean> {
-    const result = this.connection.execute(
-      'SELECT * FROM Trybesmith.Users WHERE Users.username = ? AND Users.password = ?;',
-      [username, password],
+  public async getByUsername(username: string): Promise<User | string> {
+    const [result] = await this.connection.execute<RowDataPacket[]>(
+      'SELECT * FROM Trybesmith.Users WHERE username = ?',
+      [username],
     );
-    if (!result) return false;
-    return true;
+    if (!result[0]) {
+      return 'Username or password invalid';
+    }
+    return result[0] as User;
   }
 }
