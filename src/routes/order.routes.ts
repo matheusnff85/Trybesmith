@@ -8,9 +8,9 @@ const orderController = new OrderController();
 
 orderRouter.get('/', orderController.getAll);
 orderRouter.post(
-  '/', 
-  validateToken.verifyToken, 
-  orderValidate.validateProductsIds, 
+  '/',
+  validateToken.verifyToken,
+  orderValidate.validateProductsIds,
   orderController.create,
 );
 
