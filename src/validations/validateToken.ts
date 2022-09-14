@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
-const SECRET: string = process.env.SECRET || 'supersecreto';
+const SECRET: string = process.env.SECRET || 'secret';
 
 const validateToken = (token: string) => {
   try {
