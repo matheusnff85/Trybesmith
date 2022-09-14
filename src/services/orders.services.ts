@@ -3,7 +3,6 @@ import OrderModel from '../models/orders.models';
 import UserModel from '../models/users.models';
 import Order from '../interfaces/order.interface';
 import validateToken from '../validations/validateToken';
-import validations from '../validations/validations';
 import HttpReturn from '../interfaces/http.interface';
 
 export default class OrderServices {
