@@ -4,7 +4,7 @@ class ValidateProductsIds {
   public static validateProductsIds = (req: Request, res: Response, next: NextFunction) => {
     const { productsIds } = req.body;
     
-    if (productsIds === undefined) {
+    if (!productsIds) {
       return res.status(400).json({ message: '"productsIds" is required' });
     }
 
