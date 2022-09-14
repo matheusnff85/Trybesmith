@@ -64,8 +64,24 @@ const validateUser = (userObj: User) => {
   return true;
 };
 
+const productIdSchema = Joi.array().items(Joi.number().required()).required().messages({
+  'array.base': '422|"productsIds" must be an array',
+  'array.items': '422|"productsIds" must include only numbers',
+  'any.required': '400|"productsIds" is required',
+});
+
+const validateProductsIds = (productsIds: number[]) => {
+  const { error } = productIdSchema.validate(productsIds);
+  if (error) {
+    const [code, message] = error.details[0].message.split('|');
+    return { code, message };
+  }
+  return true;
+};
+
 export default {
   validateLogin,
   validateProduct,
   validateUser,
+  validateProductsIds,
 };

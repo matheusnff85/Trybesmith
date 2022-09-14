@@ -1,8 +1,8 @@
 import { Request } from 'express';
 
 type User = {
-  username: string,
   id: number,
+  username: string,
 };
 
 type RequestWithUser = Request & {

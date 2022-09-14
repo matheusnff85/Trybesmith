@@ -1,39 +1,42 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Response, Request } from 'express';
 import dotenv from 'dotenv';
-import { verify } from 'jsonwebtoken';
-import { RequestWithUser } from '../types/requestWithToken';
-import connection from '../models/connection';
-import UserModel from '../models/users.models';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
 const SECRET: string = process.env.SECRET || 'supersecreto';
-const invalidToken = { code: 401, message: 'Invalid token' };
 
-const verifyToken = (token: string) => {
-  const result = verify(token, SECRET);
-  const loginObj = { username: (<any>result).username, password: (<any>result).password };
-  return loginObj;
-};
-
-const validateToken = async (req: RequestWithUser, res: Response, next:NextFunction) => {
-  const token = req.headers.authorization;
-  if (!token) return res.status(401).json({ message: 'Token not found' });
+const validateToken = (token: string) => {
   try {
-    const loginObj = verifyToken(token);
-    const userModel = new UserModel(connection);
-    const user = await userModel.getByUsername(loginObj.username);
-    if (typeof user === 'string') return res.status(401).json({ message: invalidToken.message });
-    if (user.password !== loginObj.password) {
-      return res.status(401).json({ message: invalidToken.message });
-    }
-    const { id } = user;
-    const { username } = loginObj;
-    req.user = { id: id as number, username };
-    next();
+    const { data } = jwt.verify(token, SECRET) as { data: string };
+    return data;
   } catch (error) {
-    res.status(invalidToken.code).json({ message: invalidToken.message });
+    const err = new Error('Invalid token');
+    return err;
   }
 };
 
-export default validateToken;
+const getUserByToken = (token: string) => {
+  const result = jwt.verify(token, SECRET);
+  const loginObj = { username: (<any>result).username };
+  return loginObj.username;
+};
+
+const verifyToken = async (req: Request, res: Response, next:NextFunction) => {
+  const token = req.headers.authorization;
+  if (!token || token === 'undefined' || token === '') {
+    return res.status(401).json({ message: 'Token not found' });
+  }
+
+  const isValidToken = validateToken(token);
+  
+  if (isValidToken instanceof Error) {
+    return res.status(401).json({ message: isValidToken.message });
+  }
+  next();
+};
+
+export default {
+  verifyToken,
+  getUserByToken,
+};
