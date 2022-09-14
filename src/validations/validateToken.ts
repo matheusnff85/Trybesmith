@@ -23,7 +23,7 @@ const getUserByToken = (token: string) => {
 
 const verifyToken = async (req: Request, res: Response, next:NextFunction) => {
   const token = req.headers.authorization;
-  if (!token || token === 'undefined' || token === '') {
+  if (!token || token === undefined || token === '') {
     return res.status(401).json({ message: 'Token not found' });
   }
 
