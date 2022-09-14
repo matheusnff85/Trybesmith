@@ -11,8 +11,7 @@ const validateToken = (token: string) => {
     const { data } = jwt.verify(token, SECRET) as { data: string };
     return data;
   } catch (error) {
-    const err = new Error('Invalid token');
-    return err;
+    return 'Invalid token';
   }
 };
 
@@ -30,8 +29,8 @@ const verifyToken = async (req: Request, res: Response, next:NextFunction) => {
 
   const isValidToken = validateToken(token);
   
-  if (isValidToken instanceof Error) {
-    return res.status(401).json({ message: isValidToken.message });
+  if (isValidToken === 'Invalid token') {
+    return res.status(401).json({ message: isValidToken });
   }
   next();
 };
