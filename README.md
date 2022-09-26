@@ -10,7 +10,7 @@ Além de criar alguns endpoints que irão ler e escrever em um banco de dados, u
 
 - Para rodar o projeto localmente siga as recomendações abaixo:
 
-Acesse o arquivo `.env.example` e altere as variaveis de ambiente presentes no arquivo, e após isso altere seu nome para `.env`.
+Acesse o arquivo `.env.example` e altere as variáveis de ambiente presentes no arquivo, e após isso altere seu nome para `.env`.
 
 Instale as dependências com o comando `npm install` e para deixar a API online só utilizar o comando `npm start` ou `npm run dev`.
 
